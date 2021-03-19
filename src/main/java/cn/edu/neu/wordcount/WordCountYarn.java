@@ -22,7 +22,7 @@ import java.util.Arrays;
  * 5.触发执行-execute//批处理不需要调用!流处理需要
  * @author 32098
  */
-public class WordCount4Yarn {
+public class WordCountYarn {
     public static void main(String[] args) throws Exception {
         //获取参数
         ParameterTool params = ParameterTool.fromArgs(args);
@@ -57,13 +57,13 @@ public class WordCount4Yarn {
         // 4.输出结果-sink
         result.print();
 
-        // 如果执行报hdfs权限相关错误,可以执行 hadoop fs -chmod -R 777  /
+        // 如果执行报 hdfs 权限相关错误,可以执行 hadoop fs -chmod -R 777  /
         // 设置用户名
         System.setProperty("HADOOP_USER_NAME", "hadoop");
-        // result.writeAsText("hdfs://master:9000/flink/example/wordcount/output_"+System.currentTimeMillis()).setParallelism(1);
         result.writeAsText(output).setParallelism(1);
 
         // 5.触发执行-execute
         env.execute();
     }
 }
+

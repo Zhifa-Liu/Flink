@@ -20,7 +20,7 @@ import org.apache.flink.util.Collector;
  * 5.触发执行-execute//如果有print,DataSet不需要调用execute,DataStream需要调用execute
  * @author 32098
  */
-public class WordCount4DataSet {
+public class WordCountDataSet {
     public static void main(String[] args) throws Exception {
         //老版本的批处理API如下,但已经不推荐使用了
         //1.准备环境-env
