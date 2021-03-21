@@ -1,0 +1,39 @@
+从Flink是否接管角度，可以分为：
+1. ManagedState(托管状态)
+2. RawState(原始状态)
+
+区别如下：
+1.  从状态管理方式的方式来说，Managed State 由 Flink Runtime 管理，自动存储，自动恢复，在内存管理上有优化；
+而 Raw State 需要用户自己管理，需要自己序列化，Flink 不知道 State 中存入的数据是什么结构，只有用户自己知道，
+需要最终序列化为可存储的数据结构。
+2.  从状态数据结构来说，Managed State 支持已知的数据结构，如 Value、List、Map 等。
+而 Raw State只支持字节数组 ，所有状态都要转换为二进制字节数组才可以。
+3.	从推荐使用场景来说，Managed State 大多数情况下均可使用，而 Raw State 是当 Managed State 不够用时，
+比如需要自定义 Operator 时，才会使用 Raw State。
+
+Managed State 分为两种，Keyed State 和 Operator State (Raw State均为Operator State)
+
+1. Keyed State是基于KeyedStream上的状态
+2. Operator State又称为 non-keyed state，即与Key无关的State，每一个 operator state 都仅与一个 operator 的实例绑定。
+3. Operator State 可以用于所有算子，但一般常用于 Source：OperatorState.png
+
+
+Keyed State 通过 RuntimeContext 访问，这需要 Operator 是一个RichFunction。
+
+保存Keyed state的数据结构:
+ValueState<T>:即类型为T的单值状态。这个状态与对应的key绑定，是最简单的状态了。它可以通过update方法更新状态值，通过value()方法获取状态值，如求按用户id统计用户交易总额
+ListState<T>:即key上的状态值为一个列表。可以通过add方法往列表中附加值；也可以通过get()方法返回一个Iterable<T>来遍历状态值，如统计按用户id统计用户经常登录的Ip
+ReducingState<T>:这种状态通过用户传入的reduceFunction，每次调用add方法添加值的时候，会调用reduceFunction，最后合并到一个单一的状态值
+MapState<UK, UV>:即状态值为一个map。用户通过put或putAll方法添加元素
+需要注意的是，以上所述的State对象，仅仅用于与状态进行交互(更新、删除、清空等)，而真正的状态值，有可能是存在内存、磁盘、或者其他分布式存储系统中。相当于我们只是持有了这个状态的句柄
+Operator State 需要自己实现 CheckpointedFunction 或 ListCheckpointed 接口。
+
+保存Operator state的数据结构:
+ListState<T>
+BroadcastState<K,V>
+举例来说，Flink中的FlinkKafkaConsumer，就使用了operator state。它会在每个connector实例中，保存该实例中消费topic的所有(partition, offset)映射
+
+https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html#using-managed-keyed-state
+https://ci.apache.org/projects/flink/flink-docs-stable/dev/stream/state/state.html#using-managed-operator-state
+
+
