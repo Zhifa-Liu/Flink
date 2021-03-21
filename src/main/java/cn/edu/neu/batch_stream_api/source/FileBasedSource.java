@@ -1,4 +1,4 @@
-package cn.edu.neu.batch_stream.source;
+package cn.edu.neu.batch_stream_api.source;
 
 import org.apache.flink.api.common.RuntimeExecutionMode;
 import org.apache.flink.streaming.api.datastream.DataStream;

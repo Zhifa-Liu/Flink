@@ -1,4 +1,4 @@
-package cn.edu.neu.batch_stream.broadcast_var;
+package cn.edu.neu.batch_stream_api.broadcast_var;
 
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.java.ExecutionEnvironment;

@@ -1,4 +1,4 @@
-package cn.edu.neu.batch_stream.connnectors;
+package cn.edu.neu.batch_stream_api.connnectors;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;

@@ -1,4 +1,4 @@
-package cn.edu.neu.batch_stream.connnectors;
+package cn.edu.neu.batch_stream_api.connnectors;
 
 import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;

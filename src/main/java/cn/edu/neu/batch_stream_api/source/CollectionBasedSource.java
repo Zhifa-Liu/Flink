@@ -1,11 +1,9 @@
-package cn.edu.neu.batch_stream.source;
+package cn.edu.neu.batch_stream_api.source;
 
 import org.apache.flink.api.common.RuntimeExecutionMode;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
-import javax.xml.crypto.Data;
 import java.util.Arrays;
 
 /**

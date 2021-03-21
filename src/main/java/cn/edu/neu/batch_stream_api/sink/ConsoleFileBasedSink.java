@@ -1,4 +1,4 @@
-package cn.edu.neu.batch_stream.sink;
+package cn.edu.neu.batch_stream_api.sink;
 
 import org.apache.flink.core.fs.FileSystem;
 import org.apache.flink.streaming.api.datastream.DataStream;

@@ -1,4 +1,4 @@
-package cn.edu.neu.batch_stream.accumulator;
+package cn.edu.neu.batch_stream_api.accumulator;
 
 import org.apache.flink.api.common.JobExecutionResult;
 import org.apache.flink.api.common.accumulators.IntCounter;

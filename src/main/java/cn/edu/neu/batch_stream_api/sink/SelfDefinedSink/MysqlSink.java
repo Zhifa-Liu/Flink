@@ -1,4 +1,4 @@
-package cn.edu.neu.batch_stream.sink.SelfDefinedSink;
+package cn.edu.neu.batch_stream_api.sink.SelfDefinedSink;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

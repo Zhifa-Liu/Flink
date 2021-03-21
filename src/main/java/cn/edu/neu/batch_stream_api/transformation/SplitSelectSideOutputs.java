@@ -1,6 +1,5 @@
-package cn.edu.neu.batch_stream.transformation;
+package cn.edu.neu.batch_stream_api.transformation;
 
-import com.google.inject.internal.cglib.proxy.$FixedValue;
 import org.apache.flink.api.common.RuntimeExecutionMode;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.streaming.api.datastream.DataStream;

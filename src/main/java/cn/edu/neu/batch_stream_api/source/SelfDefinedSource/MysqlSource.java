@@ -1,4 +1,4 @@
-package cn.edu.neu.batch_stream.source.SelfDefinedSource;
+package cn.edu.neu.batch_stream_api.source.SelfDefinedSource;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

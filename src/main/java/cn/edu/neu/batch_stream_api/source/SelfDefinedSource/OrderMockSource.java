@@ -1,16 +1,14 @@
-package cn.edu.neu.batch_stream.source.SelfDefinedSource;
+package cn.edu.neu.batch_stream_api.source.SelfDefinedSource;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.flink.api.common.RuntimeExecutionMode;
-import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * Desc

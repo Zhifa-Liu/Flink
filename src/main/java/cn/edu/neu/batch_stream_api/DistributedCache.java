@@ -1,4 +1,4 @@
-package cn.edu.neu.batch_stream;
+package cn.edu.neu.batch_stream_api;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.flink.api.common.functions.RichMapFunction;
