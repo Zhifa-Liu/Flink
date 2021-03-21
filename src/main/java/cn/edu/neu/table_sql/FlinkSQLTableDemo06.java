@@ -22,11 +22,9 @@ import org.apache.flink.types.Row;
  */
 public class FlinkSQLTableDemo06 {
     public static void main(String[] args) throws Exception {
-        // 1.准备环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         StreamTableEnvironment tEnv = StreamTableEnvironment.create(env);
 
-        // 2.Source
         TableResult inputTable = tEnv.executeSql(
                 "CREATE TABLE input_kafka (\n" +
                         "  `user_id` BIGINT,\n" +
@@ -35,7 +33,7 @@ public class FlinkSQLTableDemo06 {
                         ") WITH (\n" +
                         "  'connector' = 'kafka',\n" +
                         "  'topic' = 'input_kafka',\n" +
-                        "  'properties.bootstrap.servers' = 'mnode1:9092',\n" +
+                        "  'properties.bootstrap.servers' = 'master:9092',\n" +
                         "  'properties.group.id' = 'testGroup',\n" +
                         "  'scan.startup.mode' = 'latest-offset',\n" +
                         "  'format' = 'json'\n" +
@@ -49,7 +47,7 @@ public class FlinkSQLTableDemo06 {
                         ") WITH (\n" +
                         "  'connector' = 'kafka',\n" +
                         "  'topic' = 'output_kafka',\n" +
-                        "  'properties.bootstrap.servers' = 'mnode1:9092',\n" +
+                        "  'properties.bootstrap.servers' = 'master:9092',\n" +
                         "  'format' = 'json',\n" +
                         "  'sink.partitioner' = 'round-robin'\n" +
                         ")"
@@ -67,9 +65,8 @@ public class FlinkSQLTableDemo06 {
         DataStream<Tuple2<Boolean, Row>> resultDs = tEnv.toRetractStream(resultTable, Row.class);
         resultDs.print();
 
-        tEnv.executeSql("insert into output_kafka select * from "+resultTable);
+        tEnv.executeSql("Insert into output_kafka select * from "+resultTable);
 
-        // 7.execute
         env.execute();
     }
 }

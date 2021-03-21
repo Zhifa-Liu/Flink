@@ -14,6 +14,10 @@ import static org.apache.flink.table.api.Expressions.$;
 
 /**
  * @author 32098
+ *
+ * Desc requirement:
+ * 1. Convert a DataStream (or DataSet) into a Table
+ * 2. Create a View from a DataStream( or DataSet)
  */
 public class FlinkSQLTableDemo01 {
     @Data
@@ -54,15 +58,13 @@ public class FlinkSQLTableDemo01 {
                 )
         );
 
-        // 3.注册表
+        // 3. DS->TABLE
         // Convert DataStream to Table
         Table tableA = tEnv.fromDataStream(orderA, $("user"), $("product"), $("amount"));
-        // Register DataStream as Table
+        // Create a View from DataStream
         tEnv.createTemporaryView("OrderB", orderB, $("user"), $("product"), $("amount"));
 
         // 4.执行查询
-        System.out.println(tableA);
-
         // union the two tables
         Table resultTable = tEnv.sqlQuery(
                 "SELECT * FROM " + tableA + " WHERE amount > 2 " +
@@ -71,8 +73,8 @@ public class FlinkSQLTableDemo01 {
         );
 
         // 5.输出结果
-        DataStream<Order> resultDS = tEnv.toAppendStream(resultTable, Order.class);
-        resultDS.print();
+        DataStream<Order> resultDs = tEnv.toAppendStream(resultTable, Order.class);
+        resultDs.print();
 
         env.execute();
     }

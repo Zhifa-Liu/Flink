@@ -1,0 +1,24 @@
+如何将表转换为流？
+Flink中的Table API或者SQL支持三种不同的编码方式以把把转换为流。分别是：
+(1)Append-only流
+(2)Retract流
+(3)Upsert流
+
+分别来解释下这三种流。
+
+	Append-only流
+跟INSERT操作对应。这种编码类型的流针对的是只会不断新增的Dynamic Table。这种方式好处理，不需要进行特殊处理，源源不断地往流中发送事件即可。
+
+	Retract流：table_to_retract_stream.png
+这种流就和Append-only不太一样。上面的只能处理INSERT，如果表会发生DELETE或者UPDATE，Append-only编码方式的流就不合适了。Retract流有几种类型的事件类型：
+ADD MESSAGE：这种消息对应的就是INSERT操作。
+RETRACT MESSAGE：直译过来叫取消消息。这种消息对应的就是DELETE操作。
+
+我们可以看到通过ADD MESSAGE和RETRACT MESSAGE可以很好的向外部系统表达删除和插入操作。那如何进行UPDATE呢？好办！RETRACT MESSAGE + ADD MESSAGE即可。先把之前的数据进行删除，然后插入一条新的。完美~
+
+	Upsert流：table_to_upsert_stream.png
+前面我们看到的RETRACT编码方式的流，实现UPDATE是使用DELETE + INSERT模式的。大家想一下：在MySQL中我们更新数据的时候，肯定不会先DELETE掉一条数据，然后再插入一条数据，肯定是直接发出UPDATE语句执行更新。而Upsert编码方式的流，是能够支持Update的，这种效率更高。它同样有两种类型的消息：
+UPSERT MESSAGE：这种消息可以表示要对外部系统进行Update或者INSERT操作
+DELETE MESSAGE：这种消息表示DELETE操作。
+Upsert流是要求必须指定Primary Key的，因为Upsert操作是要有Key的。Upsert流针对UPDATE操作用一个UPSERT MESSAGE就可以描述，所以效率会更高。
+

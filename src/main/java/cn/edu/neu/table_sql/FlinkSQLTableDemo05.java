@@ -94,7 +94,6 @@ public class FlinkSQLTableDemo05 {
                         $("money").min().as("minMoney")
                 );
 
-
         // 6.SQL的执行结果转换成DataStream再打印
         DataStream<Tuple2<Boolean, Row>> resultDs = tEnv.toRetractStream(resultTable, Row.class);
         resultDs.print();

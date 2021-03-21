@@ -46,8 +46,10 @@ public class FlinkSQLTableDemo02 {
         Table resultTable = tEnv.sqlQuery("SELECT word, SUM(frequency) as frequency FROM WordCount GROUP BY word");
 
         // 5.输出结果
+        // DELETE+INSERT=UPDATE
         DataStream<Tuple2<Boolean, WordCount>> resultDs = tEnv.toRetractStream(resultTable, WordCount.class);
         /*
+        Can't
         tEnv.toAppendStream doesn't support consuming update changes which is produced by node GroupAggregate
         DataStream<WC> resultDS = tEnv.toAppendStream(resultTable, WordCount.class);
          */

@@ -15,6 +15,8 @@ import org.apache.flink.streaming.api.windowing.time.Time;
  *
  * Desc requirement:
  * 设置会话超时时间为10s，10s内没有数据到来，则触发上个窗口的计算
+ *
+ * 会话窗口：窗口数据没有固定的大小，根据窗口数据活跃程度划分窗口，窗口数据无叠加
  */
 public class SessionWindow {
     @Data

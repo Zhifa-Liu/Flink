@@ -89,14 +89,20 @@ public class FlinkSQLTableDemo04 {
                 "min(money) as minMoney " +
                 "from t_order " +
                 "group by userId," +
-                "tumble(createTime, interval '5' second)";
+                "tumble(createTime, interval '5' second)"; // 滚动窗口：5s滚动一次
+
+        /*
+         TUMBLE(timeColumn, interval 'int' DAY/HOUR/MINUTE/SECOND)
+         HOP(timeColumn, slide, window_length)
+         SESSION(timeColumn, gap) // 窗口数据非活跃周期的时长
+         */
 
         Table resultTable = tEnv.sqlQuery(sql);
 
         // 6.Sink
         // 将SQL的执行结果转换成DataStream再打印出来
         // toAppendStream → 将计算后的数据append到结果DataStream中去
-        // toRetractStream  → 将计算后的新的数据在DataStream原数据的基础上更新true或是删除false
+        // toRetractStream  → 将计算后的新的数据在DataStream原数据的基础上插入(true means insert)或是删除(false means delete)
         DataStream<Tuple2<Boolean, Row>> resultDs = tEnv.toRetractStream(resultTable, Row.class);
         resultDs.print();
 
