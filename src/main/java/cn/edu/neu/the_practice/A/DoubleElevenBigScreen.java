@@ -87,7 +87,7 @@ public class DoubleElevenBigScreen {
         /*
         注意:需求如下：
         -1.实时计算出11月11日00:00:00零点开始截止到当前时间的销售总额
-        -2.计算出各分类销售额top3
+        -2.计算出销售额top3的商品类
         -3.每1秒钟更新一次统计结果
         如果使用之前学习的简单的timeWindow(Time size 窗口大小, Time slide 滑动间隔)来处理,
         如xxx.timeWindow(24小时,1s)，计算的是需求中的吗?
@@ -151,7 +151,7 @@ public class DoubleElevenBigScreen {
             return 0D;
         }
 
-        // 把price往累加器上累加
+        // 把 price 往累加器上累加
         @Override
         public Double add(Tuple2<String, Double> value, Double accumulator) {
             return value.f1 + accumulator;
@@ -183,6 +183,7 @@ public class DoubleElevenBigScreen {
             String category = ((Tuple1<String>) tuple).f0;
 
             Double price = input.iterator().next();
+
             // 为了后面项目铺垫,使用一下用 Bigdecimal 来表示精确的小数
             BigDecimal bigDecimal = new BigDecimal(price);
 
@@ -233,7 +234,7 @@ public class DoubleElevenBigScreen {
                 totalPrice += price;
                 BigDecimal bigDecimal = new BigDecimal(totalPrice);
                 roundPrice = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                // * -2.计算出各个分类的销售额top3,其实就是对各个分类的price进行排序取前3
+                // * -2.计算出各个分类销售额top3,其实就是对各个分类的price进行排序取前3
                 // 注意:我们只需要top3,也就是只关注最大的前3个的顺序,剩下不管!所以不要使用全局排序,只需要做最大的前3的局部排序即可
                 // 那么可以使用小顶堆,把小的放顶上
                 // c:80
@@ -255,7 +256,7 @@ public class DoubleElevenBigScreen {
                 }
             }
             // * -3.每1秒钟更新一次统计结果,可以直接打印/sink，也可以收集完结果返回后再打印，
-            //  但是我们这里一次性处理了需求1和2的两种结果,不好返回,所以直接输出!
+            // 但是我们这里一次性处理了需求1和2的两种结果,不好返回,所以直接输出!
             // 对queue中的数据逆序
             // 各个分类的销售额top3
             List<String> top3Result = queue.stream()
