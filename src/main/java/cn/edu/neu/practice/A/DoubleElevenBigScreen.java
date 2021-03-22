@@ -1,4 +1,4 @@
-package cn.edu.neu.the_practice.A;
+package cn.edu.neu.practice.A;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package cn.edu.neu.the_practice.B;
+package cn.edu.neu.practice.B;
 
 import org.apache.flink.api.common.state.MapState;
 import org.apache.flink.api.common.state.MapStateDescriptor;
