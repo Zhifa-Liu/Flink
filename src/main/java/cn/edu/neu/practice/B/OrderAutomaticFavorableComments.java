@@ -84,12 +84,12 @@ public class OrderAutomaticFavorableComments {
             this.interval = interval; // 传过来的是5000ms /5s
         }
 
-        // 3.1定义MapState类型的状态，key是订单号，value是订单完成时间
+        // 3.1 定义MapState类型的状态，key是订单号，value是订单完成时间
         // 定义一个状态用来记录订单信息
         // MapState<订单id, 订单完成时间>
         private MapState<String, Long> mapState;
 
-        // 3.2初始化MapState
+        // 3.2 初始化MapState
         @Override
         public void open(Configuration parameters) throws Exception {
             // 创建状态描述器
@@ -98,7 +98,7 @@ public class OrderAutomaticFavorableComments {
             mapState = getRuntimeContext().getMapState(mapStateDesc);
         }
 
-        // 3.3注册定时器
+        // 3.3 注册定时器
         // 处理每一个订单并设置定时器
         @Override
         public void processElement(Tuple3<String, String, Long> value, Context ctx, Collector<Object> out) throws Exception {
@@ -109,7 +109,7 @@ public class OrderAutomaticFavorableComments {
             ctx.timerService().registerProcessingTimeTimer(value.f2 + interval);
         }
 
-        // 3.4定时器被触发时执行并输出结果并sink
+        // 3.4 定时器被触发时执行并输出结果并sink
         @Override
         public void onTimer(long timestamp, OnTimerContext ctx, Collector<Object> out) throws Exception {
             // 能够执行到这里说明订单超时了!超时了得去看看订单是否评价了(实际中应该要调用外部接口/方法查订单系统!我们这里没有,所以模拟一下)
@@ -138,5 +138,4 @@ public class OrderAutomaticFavorableComments {
         }
     }
 }
-
 

@@ -56,7 +56,7 @@ public class ConnectorKafkaProducer {
         );
         jsonDs.addSink(kafkaSink);
 
-        //5.execute
+        // 5.execute
         env.execute();
     }
 }

@@ -58,7 +58,7 @@ public class WatermakerAllowedLateness {
                     // 模拟数据延迟和乱序
                     long eventTime = System.currentTimeMillis() - random.nextInt(10) * 1000;
                     ctx.collect(new Order(orderId, userId, money, eventTime));
-                    TimeUnit.MICROSECONDS.sleep(10);
+                    TimeUnit.MICROSECONDS.sleep(100);
                 }
             }
             @Override

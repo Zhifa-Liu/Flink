@@ -25,15 +25,15 @@ public class MysqlSource {
     }
 
     public static class MySQLSource extends RichParallelSourceFunction<Student> {
-        private Connection conn = null;
-        private PreparedStatement ps = null;
-        private boolean flag = true;
+        private boolean flag;
+        private Connection conn;
+        private PreparedStatement ps;
 
         @Override
         public void open(Configuration parameters) throws Exception {
-            DriverManager.getConnection("jdbc:mysql://master:3306/flink", "root", "Hive@2020");
-            String sql = "select id,name,age from student";
-            ps = conn.prepareStatement(sql);
+            flag = true;
+            conn = DriverManager.getConnection("jdbc:mysql://master:3306/flink", "root", "Hive@2020");
+            ps = conn.prepareStatement("select id,name,age from student");
         }
 
         @Override
@@ -52,6 +52,11 @@ public class MysqlSource {
 
         @Override
         public void cancel() {
+            flag = false;
+        }
+
+        @Override
+        public void close() throws Exception {
             if (conn != null) {
                 try {
                     conn.close();
@@ -62,7 +67,6 @@ public class MysqlSource {
             }
         }
     }
-
 
     public static void main(String[] args) throws Exception {
         //1.env

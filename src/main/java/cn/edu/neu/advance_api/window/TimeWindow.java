@@ -63,8 +63,8 @@ public class TimeWindow {
 
         // 基于时间的滚动窗口：
         // TumblingProcessingTimeWindows 滚动处理时间窗口
-        SingleOutputStreamOperator<CartInfo> tumblingResult = cartInfoDs.keyBy(CartInfo::getSensorId)
-                .window(TumblingProcessingTimeWindows.of(Time.seconds(5))).sum("count");
+//        SingleOutputStreamOperator<CartInfo> tumblingResult = cartInfoDs.keyBy(CartInfo::getSensorId)
+//                .window(TumblingProcessingTimeWindows.of(Time.seconds(5))).sum("count");
         // cartInfoDs.keyBy(CartInfo::getSensorId).timeWindow(Time.seconds(5)); 过期
 
         // 基于时间的滑动窗口:
@@ -74,7 +74,7 @@ public class TimeWindow {
         // cartInfoDs.keyBy(CartInfo::getSensorId).timeWindow(Time.seconds(10), Time.seconds(5)); 过期
 
         // 4.sink
-        tumblingResult.print("Tumbling>>>");
+        // tumblingResult.print("Tumbling>>>");
         slidingResult.print(" Sliding>>>");
 
         // 5.execute
