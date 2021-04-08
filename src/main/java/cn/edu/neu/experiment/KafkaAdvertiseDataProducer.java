@@ -42,3 +42,4 @@ public class KafkaAdvertiseDataProducer {
         env.execute();
     }
 }
+
