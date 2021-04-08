@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>最近1分钟广告总点击量</title>
+<!--    <script src="echarts.js"></script>-->
+<!--    <script type="text/javascript" src="jquery-1.9.0.min.js"></script>-->
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+<body>
+
+<div id="display" style="height: 450px; width:800px; position: relative; left: 24%"></div>
+<script>
+    var myChart = echarts.init(document.getElementById("display"));
+    setInterval(function () {
+        $.getJSON("advertise_click_count_nearly_minute.json",function(data){
+            var x = [];
+            var y = [];
+            $.each(data,function (i,obj) {
+                x.push(obj.xtime)
+                y.push(obj.yclick)
+            });
+            var option = {
+                xAxis:{
+                    type:"category",
+                    data:x
+                },
+                yAxis:{
+                    type:"value",
+                },
+                series: [{
+                    data:y,
+                    type:"line",
+                    smooth:false,
+                    color:"steelblue",
+                },{
+                    data:y,
+                    type:"bar",
+                    barWidth: 50,
+                    color: "lightblue"
+                }]
+            };
+            myChart.setOption(option)
+        })
+    },5000)
+</script>
+
+</body>
+</html>

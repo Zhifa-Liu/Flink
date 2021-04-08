@@ -67,8 +67,6 @@ public class WordCountDataStream {
         });
 
         // 3.3对数据按照单词(key)进行分组
-        // 0表示按照tuple中的索引为0的字段,也就是key(单词)进行分组
-        // KeyedStream<Tuple2<String, Integer>, Tuple> groupedDS = wordAndOnesDS.keyBy(0);
         KeyedStream<Tuple2<String, Integer>, String> groupedDS = wordAndOnesDS.keyBy(t -> t.f0);
 
 
